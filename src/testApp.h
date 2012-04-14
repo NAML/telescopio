@@ -34,11 +34,11 @@ class testApp : public ofBaseApp{
     
         float delayAlpha;
          bool showMovie ;
-        ofxEasingCubic 	easingcubic;
-        ofxTween        tweencubic;
+        ofxEasingCubic      easingcubic;
+        ofxTween            tweencubic;
 
-        ofxTween        trigger;
-        ofxEasingLinear linear;
+        ofxTween            trigger;
+        ofxEasingLinear     linear;
     
         ofVideoPlayer 		movie;
     

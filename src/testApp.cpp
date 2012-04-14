@@ -4,11 +4,14 @@ using namespace ofxPm;
 //--------------------------------------------------------------
 void testApp::setup(){
     
+    movie.loadMovie("fingers.mov");
+    
+    
     ofAddListener( trigger.end_E, this, &testApp::evento);
     
     showMovie = false;
     
-    movie.loadMovie("fingers.mov");
+    
 	
     grabber.initGrabber(640,480);
 
