@@ -41,6 +41,7 @@ class testApp : public ofBaseApp{
         ofxEasingLinear     linear;
     
         ofVideoPlayer 		movie;
+	bool	debug;
     
     
     
