@@ -1,4 +1,1 @@
-/Users/Diex/Documents/WORK/PROGRAMACION/OpenFrameworks/openFrameworks/apps/myApps/telescopio/src/testApp.cpp: In member function 'virtual void testApp::setup()':
-/Users/Diex/Documents/WORK/PROGRAMACION/OpenFrameworks/openFrameworks/apps/myApps/telescopio/src/testApp.cpp:7: error: 'debug' was not declared in this scope
-/Users/Diex/Documents/WORK/PROGRAMACION/OpenFrameworks/openFrameworks/apps/myApps/telescopio/src/testApp.cpp: In member function 'virtual void testApp::draw()':
-/Users/Diex/Documents/WORK/PROGRAMACION/OpenFrameworks/openFrameworks/apps/myApps/telescopio/src/testApp.cpp:88: error: 'debug' was not declared in this scope
+i686-apple-darwin10-gcc-4.2.1: -lpthread: linker input file unused because linking not done

@@ -4,17 +4,26 @@ using namespace ofxPm;
 //--------------------------------------------------------------
 void testApp::setup(){
 	
-	debug = true;
+	debug = false;
+    showMovie = false;
+    delayAlpha = 0;
     
+	
+	// camara
 	grabber.listDevices();
 	grabber.initGrabber(640,480);
-    buffer.setup(grabber, 30 * 10);         // cuantos frames quiero guardar
-	buffer.resume();
-	header.setup(buffer);
-	
+	cout << grabber.getFps();
+	// buffer
+    buffer.setup(grabber, 60 * 10);         // cuantos frames quiero guardar
+	// render realtime para debug
 	realtime.setup(buffer);
+	// un playhead para recorrer el buffer	
+	playHead.setup(buffer);
+	playHead.setDelay(40 * 10000 * 10);  // fps * 10000 * segDeDelay 	
+//	delayed.setup(playHead);			 // el delay se activa cuando tiene sufientes frames para mostrarlo
 	
-	//movie.loadMovie("fingers.mov");
+	// la peli
+	movie.loadMovie("clip.mov");
     
 	// eventos a los que necesito estar atento
 	
@@ -23,41 +32,36 @@ void testApp::setup(){
 	
 	// alguien pulso el boton
 	//				fade in delay
-	//					
-    
+	
+
 	
 	ofAddListener( trigger.end_E, this, &testApp::evento);
-    
-    showMovie = false;
-    
-    
-	//	
-	// 	
-    
-    delayAlpha = 0;
-	
-    
-	//    delayed.setup(header);
-    
 	ofBackground(0);
+	ofEnableAlphaBlending();
+	
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
+
 	grabber.update();
 
+	if (movie.isPlaying()) {
+		movie.update();
+	}
 	
-	//  cout << trigger.update() << endl;
-	//    trigger.update();
-	//    if(showMovie) movie.idleMovie();
+	if (buffer.isFull()) {
+	//	buffer.stop();
+	}
+
 	
     
 }
 
 void testApp::evento(int &id){
     cout << "bang" << endl;
-    movie.play();
-    showMovie = true;
+  
+   
 }
 
 
@@ -67,36 +71,34 @@ void testApp::evento(int &id){
 //--------------------------------------------------------------
 void testApp::draw(){
 	
-	//	ofBackground(255, 255, 255, 255);
-    // dibujo la capa delay
+	ofBackground(0, 0, 0, 0);
+	ofSetColor(255,255,255, tweencubic.update());
+	ofRect(0, 0, 30, 30	);
+
+	// la manera apropiada de dibujar un buffer es sacando la referencia a la ofTexture que usa
+	// para eso tengo que pasar por el frame
+	// obtengo un puntero para el frame actual
+	VideoFrame * frame = playHead.getNextVideoFrame();
+	// y de ese frame obtengo una REFERENCIA a la ofTexture. (recuerda peque–o padawan: una referencia es el referente) :)
+	frame->getTextureRef().draw(0, 0, 800, 600);
 	
-	//    ofPushMatrix();
-	//    ofEnableAlphaBlending();    // turn on alpha blending
 	
-	
-	
-    
-	//	ofSetColor(255,255,255,tweencubic.update());    // red, 50% transparent
-	//	delayed.draw();
-	
-    if (showMovie) {
-		//        movie.draw(0, 0, ofGetWindowWidth() , ofGetWindowHeight());
-    }
-	//	header.draw();
-    
 	
 	if (debug) {
-		header.draw();
+		//	grabber.draw() does not work
+		//	grabber.draw(0,0,320,240);
+		
+		playHead.draw();
 		buffer.draw();
-		realtime.draw();
+		
+		realtime.draw(0,0,160,120);
+		delayed.draw(160,0,160,120);
+		movie.draw(320, 0, 160, 120);
+		
 	}
 	
 	// ofDrawBitmapString("VideoFrame pool size: " + ofToString(VideoFrame::getPoolSize(VideoFormat(640,480,3))),20,ofGetHeight()-20);
-	
-	
-	
-	//	grabber.draw() does not work
-	//	grabber.draw(0,0,320,240);
+
 }
 
 //--------------------------------------------------------------
@@ -114,10 +116,13 @@ void testApp::keyPressed(int key){
     
     
     if(key == '0'){
-        header.setPct(0);
-        tweencubic.setParameters(0,easingcubic,ofxTween::easeOut,0,255,3000,0);
-        trigger.setParameters(linear, ofxTween::easeOut, 0, 1, 9000, 0);
-        buffer.stop();
+	//	movie.play();
+	//	showMovie = true;
+		
+		// fade in delay
+		tweencubic.setParameters(1,easingcubic,ofxTween::easeOut,0,255,2000,0);
+		
+		
     }
 }
 
