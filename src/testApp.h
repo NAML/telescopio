@@ -23,7 +23,7 @@ public:
 	void gotMessage(ofMessage msg);
     
     
-	void evento(int &id);
+	void tweenParseEvent(int &id);
 	
 	ofxPm::VideoGrabber         grabber;
 	ofxPm::VideoBuffer          buffer;
@@ -31,14 +31,15 @@ public:
 	
 	ofxPm::BasicVideoRenderer   realtime;
 	ofxPm::VideoRenderer		delayed;
-    
-	float delayAlpha;
+	
+	ofxPm::VideoFrame*			frame;			
+  
 	bool showMovie ;
 	
-	ofxEasingCubic      easingcubic;
-	ofxTween            tweencubic;
 	
-	ofxTween            trigger;
+	ofxTween            camaraAlpha;
+	ofxEasingCubic      easingcubic;
+	ofxTween            triggerPelicula;
 	ofxEasingLinear     linear;
     
 	ofVideoPlayer 		movie;
